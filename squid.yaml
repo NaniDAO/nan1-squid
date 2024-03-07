@@ -1,0 +1,19 @@
+manifestVersion: subsquid.io/v0.1
+name: nan1
+version: 1
+description: A squid that indexes NANI accounts on ETH and Arbitrum
+build:
+deploy:
+  addons:
+    postgres:
+    rpc:
+      - eth.http
+  processor:
+    - name: processor
+      cmd:
+        - sqd
+        - process:prod
+      env:
+        RPC_ENDPOINT_ETH: ${{ secrets.RPC_ENDPOINT_ETH }}
+  api:
+    cmd: [ "sqd", "serve:prod" ]

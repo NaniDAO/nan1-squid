@@ -1,0 +1,8 @@
+type Account @entity {
+  id: ID!
+  address: String!
+  owner: String! @index
+  salt: String!
+  
+  txHash: String!
+}
