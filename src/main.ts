@@ -2,7 +2,7 @@ import { TypeormDatabase } from '@subsquid/typeorm-store'
 
 import * as accountsAbi from './abi/accounts'
 import { Account } from './model'
-import { processor } from './processor';
+import { chain, processor } from './processor';
 
 processor.run(new TypeormDatabase({ supportHotBlocks: true, stateSchema: 'processor' }), async ctx => {
     const accounts = new Map()
@@ -24,8 +24,8 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true, stateSchema: 'proces
             
             ctx.log.info({ account }, `Processing createAccount ${trace.transaction.hash}`)
 
-            accounts.set(account.toLowerCase() + '-' + 'eth-mainnet', new Account( {
-              id: account.toLowerCase() + '-' + 'eth-mainnet',
+            accounts.set(account.toLowerCase() + '-' + chain, new Account( {
+              id: account.toLowerCase() + '-' + chain,
               address: account.toLowerCase(),
               owner: owner.toLowerCase(),
               salt: salt.toLowerCase(),

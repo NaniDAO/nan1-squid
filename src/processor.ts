@@ -12,8 +12,10 @@ import { lookupArchive } from '@subsquid/archive-registry'
 import { assertNotNull } from '@subsquid/util-internal';
 import {Store} from '@subsquid/typeorm-store'
 
+export const chain = 'arbitrum';
+
 export const processor = new EvmBatchProcessor()
-  .setGateway(lookupArchive('eth-mainnet'))
+  .setGateway(lookupArchive(chain))
   .setRpcEndpoint({
     // set RPC endpoint in .env
     url: assertNotNull(process.env.RPC_ETH_HTTP, 'RPC_ETH_HTTP is not set'),

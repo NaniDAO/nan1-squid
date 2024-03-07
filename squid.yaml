@@ -7,13 +7,13 @@ deploy:
   addons:
     postgres:
     rpc:
-      - eth.http
+      - arbitrum-one.http
   processor:
     - name: processor
       cmd:
         - sqd
         - process:prod
       env:
-        RPC_ENDPOINT_ETH: ${{ secrets.RPC_ENDPOINT_ETH }}
+        RPC_ENDPOINT_ETH: ${{ secrets.RPC_ARBITRUM_ONE_HTTP }}
   api:
     cmd: [ "sqd", "serve:prod" ]

@@ -5,4 +5,5 @@ type Account @entity {
   salt: String!
   
   txHash: String!
+  blockTimestamp: BigInt! @index
 }
