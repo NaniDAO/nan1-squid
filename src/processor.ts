@@ -18,7 +18,7 @@ export const processor = new EvmBatchProcessor()
   .setGateway(lookupArchive(chain))
   .setRpcEndpoint({
     // set RPC endpoint in .env
-    url: assertNotNull(process.env.RPC_ETH_HTTP, 'RPC_ETH_HTTP is not set'),
+    url: assertNotNull(process.env.RPC_ARBITRUM_ONE_HTTP, 'RPC_ARBITRUM_ONE_HTTP is not set'),
     rateLimit: 10
   })
   .setFinalityConfirmation(75) // 15 mins to finality
@@ -31,6 +31,7 @@ export const processor = new EvmBatchProcessor()
       sighash: true,
       hash: true,
       value: true,
+      
     },
     trace: {
       callInput: true,
@@ -39,6 +40,7 @@ export const processor = new EvmBatchProcessor()
       callSighash: true,
       callResultOutput: true,
       callValue: true,
+      
     }
   })
   .addTrace({

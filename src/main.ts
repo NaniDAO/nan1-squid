@@ -3,6 +3,7 @@ import { TypeormDatabase } from '@subsquid/typeorm-store'
 import * as accountsAbi from './abi/accounts'
 import { Account } from './model'
 import { chain, processor } from './processor';
+import { convertTimestampMilliToSeconds } from './utils';
 
 processor.run(new TypeormDatabase({ supportHotBlocks: true, stateSchema: 'processor' }), async ctx => {
     const accounts = new Map()
@@ -30,6 +31,7 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true, stateSchema: 'proces
               owner: owner.toLowerCase(),
               salt: salt.toLowerCase(),
               txHash: trace.transaction.hash,
+              blockTimestamp: convertTimestampMilliToSeconds(block.header.timestamp),
             }))
             ctx.log.info({ account }, `Processed createAccount ${trace.transaction.hash}`)
           }

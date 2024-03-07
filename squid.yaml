@@ -13,7 +13,5 @@ deploy:
       cmd:
         - sqd
         - process:prod
-      env:
-        RPC_ENDPOINT_ETH: ${{ secrets.RPC_ARBITRUM_ONE_HTTP }}
   api:
     cmd: [ "sqd", "serve:prod" ]
