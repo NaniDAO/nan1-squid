@@ -1,4 +1,4 @@
-import { ACCOUNTS_ADDRESS, ENTRYPOINT_ADDRESS } from "./constants";
+import { ACCOUNTS_ADDRESS, ARBITRUM_START_BLOCK, ENTRYPOINT_ADDRESS } from "./constants";
 import * as accountsAbi from './abi/accounts'
 import {
     BlockHeader,
@@ -22,7 +22,7 @@ export const processor = new EvmBatchProcessor()
     rateLimit: 10
   })
   .setFinalityConfirmation(75) // 15 mins to finality
-  .setBlockRange({ from: 18597775 })
+  .setBlockRange({ from: ARBITRUM_START_BLOCK })
   .setFields({
     transaction: {
       chainId: true,
