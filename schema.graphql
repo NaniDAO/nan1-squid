@@ -7,3 +7,17 @@ type Account @entity {
   txHash: String!
   blockTimestamp: BigInt! @index
 }
+
+type UserOperation @entity {
+  id: ID! 
+  userOpHash: String! @index
+  sender: String! @index
+  paymaster: String! @index
+  nonce: BigInt!
+  success: Boolean!
+  actualGasCost: BigInt!
+  actualGasUsed: BigInt!
+  
+  txHash: String!
+  timestamp: BigInt! @index
+}

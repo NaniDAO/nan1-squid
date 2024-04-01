@@ -1,5 +1,7 @@
 import { ACCOUNTS_ADDRESS, ARBITRUM_START_BLOCK, ENTRYPOINT_ADDRESS } from "./constants";
 import * as accountsAbi from './abi/accounts'
+import * as entryPointAbi from './abi/entryPoint'
+import * as accountAbi from './abi/account'
 import {
     BlockHeader,
     DataHandlerContext,
@@ -31,7 +33,7 @@ export const processor = new EvmBatchProcessor()
       sighash: true,
       hash: true,
       value: true,
-      
+      input: true,
     },
     trace: {
       callInput: true,
@@ -49,6 +51,15 @@ export const processor = new EvmBatchProcessor()
     callTo: [ACCOUNTS_ADDRESS],
     transaction: true,
   })
+  .addLog({
+    address: [ENTRYPOINT_ADDRESS],
+    topic0: [entryPointAbi.events.UserOperationEvent.topic, entryPointAbi.events.UserOperationRevertReason.topic],
+    transaction: true,
+  })
+  .addLog({
+    topic0: [accountAbi.events.OwnershipHandoverRequested.topic, accountAbi.events.OwnershipTransferred.topic, accountAbi.events.OwnershipHandoverCanceled.topic, accountAbi.events.Upgraded.topic],
+    transaction: true,
+   })
 
   export type Fields = EvmBatchProcessorFields<typeof processor>
   export type Context = DataHandlerContext<Store, Fields>
