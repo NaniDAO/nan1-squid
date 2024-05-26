@@ -1,4 +1,4 @@
-import { ACCOUNTS_ADDRESS, ARBITRUM_START_BLOCK, ENTRYPOINT_ADDRESS } from "./constants";
+import { ACCOUNTS_ADDRESSES, ARBITRUM_START_BLOCK, ENTRYPOINTS_ADDRESSES } from "./constants";
 import * as accountsAbi from './abi/accounts'
 import * as entryPointAbi from './abi/entryPoint'
 import * as accountAbi from './abi/account'
@@ -42,17 +42,17 @@ export const processor = new EvmBatchProcessor()
       callSighash: true,
       callResultOutput: true,
       callValue: true,
-      
     }
   })
   .addTrace({
     type: ['call'],
     callSighash: [accountsAbi.functions.createAccount.sighash],
-    callTo: [ACCOUNTS_ADDRESS],
+    callTo: Object.values(ACCOUNTS_ADDRESSES),
     transaction: true,
+    transactionLogs: true,
   })
   .addLog({
-    address: [ENTRYPOINT_ADDRESS],
+    address: Object.values(ENTRYPOINTS_ADDRESSES),
     topic0: [entryPointAbi.events.UserOperationEvent.topic, entryPointAbi.events.UserOperationRevertReason.topic],
     transaction: true,
   })

@@ -6,7 +6,7 @@ import * as entrypointAbi from './abi/entryPoint'
 import { Account, UserOperation } from './model'
 import { chain, processor, Context } from './processor';
 import { convertTimestampMilliToSeconds, getAccountId } from './utils';
-import { ENTRYPOINT_ADDRESS } from './constants';
+import { ENTRYPOINTS_ADDRESSES } from './constants';
 
 let factoryAccounts: Set<string>
 
@@ -17,6 +17,7 @@ interface AccountData {
   salt: string
   txHash: string
   blockTimestamp: bigint
+  factory: string
 }
 
 processor.run(new TypeormDatabase({ supportHotBlocks: true, stateSchema: 'processor' }), async ctx => {
@@ -31,17 +32,17 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true, stateSchema: 'proces
       for (let trace of block.traces) {
         if (trace.type === 'call') {
           // @ts-expect-error
-          const { input, sighash } = trace.action;
+          const { to, input, sighash } = trace.action;
 
           if (sighash === accountsAbi.functions.createAccount.sighash) {
             ctx.log.info(`Processing createAccount ${trace.transaction.hash}`)
             const [owner, salt] = accountsAbi.functions.createAccount.decode(input)
             // @ts-expect-error
             const account = accountsAbi.functions.createAccount.decodeResult(trace.result.output)
-            
-            ctx.log.info(`Processing createAccount ${trace.transaction.hash} ${account}`)
+            ctx.log.info(`Processing createAccount ${account} factory ${to.toLowerCase()}`)
             accounts.push({
               id: getAccountId(account, chain),
+              factory: to.toLowerCase(),
               address: account.toLowerCase(),
               owner: owner.toLowerCase(),
               salt: salt.toLowerCase(),
@@ -53,7 +54,7 @@ processor.run(new TypeormDatabase({ supportHotBlocks: true, stateSchema: 'proces
       }
 
       for (let log of block.logs) {
-        if (log.address.toLowerCase() === ENTRYPOINT_ADDRESS) {
+        if (log.address.toLowerCase() === ENTRYPOINTS_ADDRESSES['0.6.0'] || log.address.toLowerCase() === ENTRYPOINTS_ADDRESSES['0.7.0']) {
           if (log.topics[0] === entrypointAbi.events.UserOperationEvent.topic) {
             const userOp = entrypointAbi.events.UserOperationEvent.decode(log);
             if (factoryAccounts.has(getAccountId(userOp.sender, chain))) {

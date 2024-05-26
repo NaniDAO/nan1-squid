@@ -3,6 +3,7 @@ type Account @entity {
   address: String!
   owner: String! @index
   salt: String!
+  factory: String!
   
   txHash: String!
   blockTimestamp: BigInt! @index

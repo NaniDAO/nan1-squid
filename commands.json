@@ -45,12 +45,12 @@
         "cmd": ["squid-evm-typegen", "./src/abi", {"glob": "./abi/*.json"}, "--multicall"]
       },
       "process": {
-        "description": "Load .env and start the Sepolia squid processor",
+        "description": "Load .env and start the Arbitrum squid processor",
         "deps": ["build", "migration:apply"],
         "cmd": ["node", "--require=dotenv/config", "lib/main.js"]
       },
       "process:prod": {
-        "description": "Load .env and start the Sepolia squid processor",
+        "description": "Load .env and start the Arbitrum squid processor",
         "deps": ["build", "migration:apply"],
         "cmd": ["node", "--require=dotenv/config", "lib/main.js"],
         "hidden": true

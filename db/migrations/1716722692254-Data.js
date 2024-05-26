@@ -1,8 +1,8 @@
-module.exports = class Data1710967264092 {
-    name = 'Data1710967264092'
+module.exports = class Data1716722692254 {
+    name = 'Data1716722692254'
 
     async up(db) {
-        await db.query(`CREATE TABLE "account" ("id" character varying NOT NULL, "address" text NOT NULL, "owner" text NOT NULL, "salt" text NOT NULL, "tx_hash" text NOT NULL, "block_timestamp" numeric NOT NULL, CONSTRAINT "PK_54115ee388cdb6d86bb4bf5b2ea" PRIMARY KEY ("id"))`)
+        await db.query(`CREATE TABLE "account" ("id" character varying NOT NULL, "address" text NOT NULL, "owner" text NOT NULL, "salt" text NOT NULL, "factory" text NOT NULL, "tx_hash" text NOT NULL, "block_timestamp" numeric NOT NULL, CONSTRAINT "PK_54115ee388cdb6d86bb4bf5b2ea" PRIMARY KEY ("id"))`)
         await db.query(`CREATE INDEX "IDX_78f18a993051a02b43ce16c27e" ON "account" ("owner") `)
         await db.query(`CREATE INDEX "IDX_4fbb461ccd756bfcafec1332a5" ON "account" ("block_timestamp") `)
         await db.query(`CREATE TABLE "user_operation" ("id" character varying NOT NULL, "user_op_hash" text NOT NULL, "sender" text NOT NULL, "paymaster" text NOT NULL, "nonce" numeric NOT NULL, "success" boolean NOT NULL, "actual_gas_cost" numeric NOT NULL, "actual_gas_used" numeric NOT NULL, "tx_hash" text NOT NULL, "timestamp" numeric NOT NULL, CONSTRAINT "PK_daae96c3cc5ba909299a40d0e42" PRIMARY KEY ("id"))`)

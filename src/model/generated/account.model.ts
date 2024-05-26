@@ -21,6 +21,9 @@ export class Account {
     salt!: string
 
     @Column_("text", {nullable: false})
+    factory!: string
+
+    @Column_("text", {nullable: false})
     txHash!: string
 
     @Index_()
