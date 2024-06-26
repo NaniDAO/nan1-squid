@@ -42,6 +42,7 @@ export const processor = new EvmBatchProcessor()
       callSighash: true,
       callResultOutput: true,
       callValue: true,
+      revertReason: true,
     }
   })
   .addTrace({
